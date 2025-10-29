@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>오늘의 식단 추천</title>
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: linear-gradient(135deg, #f7f8fa, #e9ecf1);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+
+    button {
+      background-color: #0078ff;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background-color: #005fcc;
+      transform: scale(1.05);
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 320px;
+      padding: 20px;
+      text-align: center;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .meal-type {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .meal-item {
+      margin: 6px 0;
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    footer {
+      margin-top: 40px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍱 오늘의 식단 추천</h1>
+  <div class="button-group">
+    <button onclick="generateMeal('breakfast')">🌅 아침</button>
+    <button onclick="generateMeal('lunch')">🌞 점심</button>
+    <button onclick="generateMeal('dinner')">🌙 저녁</button>
+  </div>
+  <div id="recommendation" class="card"></div>
+
+  <footer>© 2025 식단 추천 서비스</footer>
+
+  <script>
+    const meals = {
+      breakfast: {
+        rice: ['현미밥', '잡곡밥', '김치볶음밥', '계란볶음밥'],
+        soup: ['된장국', '미역국', '계란국', '콩나물국'],
+        side: ['김치', '시금치나물', '두부조림', '멸치볶음', '오징어채무침', '감자조림']
+      },
+      lunch: {
+        rice: ['흰밥', '잡곡밥', '볶음밥', '참치마요덮밥'],
+        soup: ['김치찌개', '순두부찌개', '된장찌개', '유부된장국'],
+        side: ['제육볶음', '닭갈비', '어묵볶음', '시금치나물', '감자볶음', '계란말이']
+      },
+      dinner: {
+        rice: ['흑미밥', '현미밥', '보리밥', '김치볶음밥'],
+        soup: ['된장찌개', '순두부찌개', '김치찌개', '감자국'],
+        side: ['고등어구이', '두부조림', '시금치나물', '어묵볶음', '감자조림', '달걀말이']
+      }
+    };
+
+    function getRandomItems(arr, count) {
+      const shuffled = arr.sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    }
+
+    function generateMeal(type) {
+      const meal = meals[type];
+      const rice = getRandomItems(meal.rice, 1)[0];
+      const soup = getRandomItems(meal.soup, 1)[0];
+      const sides = getRandomItems(meal.side, 2);
+      
+      const typeLabel = type === 'breakfast' ? '🌅 아침 메뉴' : type === 'lunch' ? '🌞 점심 메뉴' : '🌙 저녁 메뉴';
+      document.getElementById('recommendation').innerHTML = `
+        <div class='meal-type'>${typeLabel}</div>
+        <div class='meal-item'>🍚 밥: ${rice}</div>
+        <div class='meal-item'>🍲 국: ${soup}</div>
+        <div class='meal-item'>🥢 반찬: ${sides.join(', ')}</div>
+      `;
+    }
+  </script>
+</body>
+</html>
